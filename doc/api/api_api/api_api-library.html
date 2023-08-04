@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the main function from the main library, for the Dart programming language.">
-  <title>main function - main library - Dart API</title>
+  <meta name="description" content="api library API docs, for the Dart programming language.">
+  <title>api library - Dart API</title>
 
 
   
@@ -29,10 +29,9 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">algoritmo_genetico</a></li>
-    <li><a href="../main/main-library.html">main</a></li>
-    <li class="self-crumb">main function</li>
+    <li class="self-crumb">api library</li>
   </ol>
-  <div class="self-name">main</div>
+  <div class="self-name">api</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -51,37 +50,36 @@
 <main>
 
   <div id="dartdoc-main-content" class="main-content">
+    
       <div>
-<h1><span class="kind-function">main</span> function 
+<h1><span class="kind-library">api</span> library 
  
 </h1></div>
 
-    <section class="multi-line-signature">
-        
+    
 
-<span class="returntype">void</span>
-<span class="name ">main</span>(<wbr>)
 
-        
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
 
+      <dl>
+        <dt id="GeneticAlgoritmApi">
+  <span class="name "><a href="../api_api/GeneticAlgoritmApi-class.html">GeneticAlgoritmApi</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+      </dl>
     </section>
-    
 
 
-    
-<section class="summary source-code" id="source">
-  <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void main() async {
-  final geneticAlgorithmController = GeneticAlgoritmApi();
 
-  final handler = const Pipeline().addMiddleware(logRequests()).addHandler(
-      (Request request) =&gt;
-          geneticAlgorithmController.runGeneticAlgorithm(request));
 
-  final server = await io.serve(handler, &#39;192.168.1.12&#39;, 8080);
-  print(&#39;Server running on ${server.address}:${server.port}&#39;);
-}</code></pre>
-</section>
+
+
+
 
 
   </div> <!-- /.main-content -->
@@ -95,29 +93,37 @@
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">algoritmo_genetico</a></li>
-  <li><a href="../main/main-library.html">main</a></li>
-  <li class="self-crumb">main function</li>
+  <li class="self-crumb">api library</li>
 </ol>
 
 
-    <h5>main library</h5>
+    <h5><span class="package-name">algoritmo_genetico</span> <span class="package-kind">package</span></h5>
     <ol>
-
-
-
-
-
-      <li class="section-title"><a href="../main/main-library.html#functions">Functions</a></li>
-        <li><a href="../main/main.html">main</a></li>
-
-
-
+      <li class="section-title">Libraries</li>
+      <li><a href="../api_api/api_api-library.html">api</a></li>
+      <li><a href="../controller/controller-library.html">controller</a></li>
+      <li><a href="../individual/individual-library.html">individual</a></li>
+      <li><a href="../main/main-library.html">main</a></li>
 </ol>
 
-  </div><!--/.sidebar-offcanvas-left-->
+  </div>
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
-  </div><!--/.sidebar-offcanvas-->
+    <h5>api library</h5>
+    <ol>
+      <li class="section-title"><a href="../api_api/api_api-library.html#classes">Classes</a></li>
+        <li><a href="../api_api/GeneticAlgoritmApi-class.html">GeneticAlgoritmApi</a></li>
+
+
+
+
+
+
+
+
+</ol>
+
+  </div><!--/sidebar-offcanvas-right-->
 
 </main>
 

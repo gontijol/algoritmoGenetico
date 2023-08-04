@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:projetinho/individual.dart';
+import 'individual.dart';
 
 class GeneticAlgorithmController {
   int populationSize;

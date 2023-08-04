@@ -1,6 +1,7 @@
-import 'package:projetinho/api/api.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf/shelf.dart';
+
+import 'api/api.dart';
 
 void main() async {
   final geneticAlgorithmController = GeneticAlgoritmApi();
