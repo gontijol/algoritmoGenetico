@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:projetinho/controller.dart';
-import 'package:projetinho/model.dart';
+import 'package:projetinho/individual.dart';
 import 'package:shelf/shelf.dart';
 
 class GeneticAlgoritmApi {
