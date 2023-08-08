@@ -259,6 +259,7 @@ class GeneticAlgorithmController {
     double? mutationRate = geneticAlgorithm!.mutationRate;
     int? generations = geneticAlgorithm!.generations;
 
+    // ignore: unnecessary_null_comparison
     if (mutationRate != null) {
       final responseJson = {
         'populationSize': populationSize,
@@ -301,6 +302,6 @@ void main() async {
       (Request request) =>
           geneticAlgorithmController.runGeneticAlgorithm(request));
 
-  final server = await io.serve(handler, '192.168.1.15', 8080);
+  final server = await io.serve(handler, '172.31.14.197', 8080);
   print('Server running on ${server.address}:${server.port}');
 }
