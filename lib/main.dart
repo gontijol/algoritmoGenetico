@@ -259,7 +259,6 @@ class GeneticAlgorithmController {
     double? mutationRate = geneticAlgorithm!.mutationRate;
     int? generations = geneticAlgorithm!.generations;
 
-    // ignore: unnecessary_null_comparison
     if (mutationRate != null) {
       final responseJson = {
         'populationSize': populationSize,
@@ -298,10 +297,36 @@ class GeneticAlgorithmController {
 void main() async {
   final geneticAlgorithmController = GeneticAlgorithmController();
 
-  final handler = const Pipeline().addMiddleware(logRequests()).addHandler(
-      (Request request) =>
-          geneticAlgorithmController.runGeneticAlgorithm(request));
+  final router = geneticAlgorithmController.createRouter();
 
-  final server = await io.serve(handler, '172.31.14.197', 8080);
+  // Rota para obter o status (não executa o algoritmo genético)
+  router.get('/status',
+      (Request request) => geneticAlgorithmController.getStatus(request));
+
+  // Rota para obter todos os indivíduos (não executa o algoritmo genético)
+  router.get(
+      '/individuals',
+      (Request request) =>
+          geneticAlgorithmController.getAllIndividuals(request));
+
+  // Rota para obter o melhor indivíduo global (não executa o algoritmo genético)
+  router.get(
+      '/best-global-individual',
+      (Request request) =>
+          geneticAlgorithmController.getBestGlobalIndividual(request));
+
+  // Rota para atualizar as variáveis do algoritmo genético (não executa o algoritmo genético)
+  router.post('/set-variables',
+      (Request request) => geneticAlgorithmController.setVariables(request));
+
+  // Rota para obter as variáveis do algoritmo genético (não executa o algoritmo genético)
+  router.get('/get-variables',
+      (Request request) => geneticAlgorithmController.getVariables(request));
+
+  // Crie o handler usando o router
+  final handler =
+      const Pipeline().addMiddleware(logRequests()).addHandler(router);
+
+  final server = await io.serve(handler, '192.168.1.15', 8080);
   print('Server running on ${server.address}:${server.port}');
 }
