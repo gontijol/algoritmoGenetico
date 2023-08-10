@@ -328,7 +328,7 @@ void main() async {
   final handler =
       const Pipeline().addMiddleware(logRequests()).addHandler(router);
 
-  final server = await io.serve(handler, '18.188.214.10', 8080);
+  final server = await io.serve(handler, 'http://18.188.214.10', 8080);
   print('Server running on ${server.address}:${server.port}');
 }
 //http://18.188.214.10:8080/ -- servidor da amazon -- https publico
