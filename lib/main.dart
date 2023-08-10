@@ -259,6 +259,7 @@ class GeneticAlgorithmController {
     double? mutationRate = geneticAlgorithm!.mutationRate;
     int? generations = geneticAlgorithm!.generations;
 
+    // ignore: unnecessary_null_comparison
     if (mutationRate != null) {
       final responseJson = {
         'populationSize': populationSize,
