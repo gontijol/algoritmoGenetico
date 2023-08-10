@@ -182,8 +182,8 @@ class GeneticAlgorithmController {
   }
 
   Response getBestGlobalIndividual(Request request) {
+    runGeneticAlgorithm(request);
     Individual? bestGlobalIndividual = geneticAlgorithm!.bestGlobalIndividual;
-
     if (bestGlobalIndividual != null) {
       String chromosome = bestGlobalIndividual.chromosome;
       double fitness = bestGlobalIndividual.fitness;
