@@ -86,7 +86,7 @@ func generateRandomChromosome() string {
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
-	populationSize := 100
+	populationSize := 10000
 	mutationRate := 0.008
 	generations := 120
 
