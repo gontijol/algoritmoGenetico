@@ -160,8 +160,10 @@ func main() {
 	// ... Define other handlers for set-variables and get-variables
 
 	serverAddr := "172.31.14.197:8080"
-	fmt.Printf("Server running on %s\n", serverAddr)
-	http.ListenAndServe(serverAddr, nil)
+	log.Printf("Server running on %s\n", serverAddr)
+	if err := http.ListenAndServe(serverAddr, nil); err != nil {
+		log.Fatalf("Error starting server: %v", err)
+	}
 }
 
 func writeJSONResponse(w http.ResponseWriter, data interface{}) {
