@@ -324,11 +324,19 @@ void main() async {
   router.get('/get-variables',
       (Request request) => geneticAlgorithmController.getVariables(request));
 
+  final corsMiddleware = createMiddleware(
+    errorHandler: (error, p1) => Response.ok('Error: ${error.toString()}'),
+    requestHandler: (p0) => Response.ok('CORS request handled!'),
+    responseHandler: (p0) => Response.ok('CORS response handled!'),
+    // Add other CORS options as needed
+  );
   // Crie o handler usando o router
-  final handler =
-      const Pipeline().addMiddleware(logRequests()).addHandler(router);
+  final handler = const Pipeline()
+      .addMiddleware(logRequests())
+      .addMiddleware(corsMiddleware) // Adicione o middleware CORS aqui
+      .addHandler(router);
 
-  final server = await io.serve(handler, '172.31.14.197', 8080);
+  final server = await io.serve(handler, 'http://172.31.14.19', 8080);
   print('Server running on ${server.address}:${server.port}');
 }
 //http://18.188.214.10:8080/ -- servidor da amazon -- https publico
