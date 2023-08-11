@@ -221,6 +221,7 @@ class GeneticAlgorithmController extends GetxController {
     if (response.statusCode == 200) {
       status.value = 'Status: ${response.body}';
     }
+    loading.value = false;
   }
 
   Future<void> setVariables() async {

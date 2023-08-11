@@ -159,7 +159,7 @@ func main() {
 
 	// ... Define other handlers for set-variables and get-variables
 
-	serverAddr := "localhost:8080"
+	serverAddr := "172.31.14.197:8080"
 	fmt.Printf("Server running on %s\n", serverAddr)
 	http.ListenAndServe(serverAddr, nil)
 }
