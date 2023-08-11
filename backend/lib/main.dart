@@ -336,7 +336,7 @@ void main() async {
       .addMiddleware(corsMiddleware) // Adicione o middleware CORS aqui
       .addHandler(router);
 
-  final server = await io.serve(handler, 'http://172.31.14.19', 8080);
+  final server = await io.serve(handler, '172.31.14.19', 8080);
   print('Server running on ${server.address}:${server.port}');
 }
 //http://18.188.214.10:8080/ -- servidor da amazon -- https publico
