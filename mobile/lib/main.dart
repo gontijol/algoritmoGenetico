@@ -98,7 +98,7 @@ class HomePage extends GetView {
               color: Colors.white,
               width: Get.width * 1,
               height: 400,
-              child: ListView(
+              child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16.0),
