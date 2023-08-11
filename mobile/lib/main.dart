@@ -170,7 +170,7 @@ class GeneticAlgorithmController extends GetxController {
     loading.value = true;
 
     final response = await http.get(
-      Uri.parse('$apiUrl/best-global-individual'),
+      Uri.parse('$apiUrl/go/best-global-individual'),
       headers: {'Content-Type': 'application/json'},
     );
     print(response.body);
@@ -192,7 +192,7 @@ class GeneticAlgorithmController extends GetxController {
   Future<void> runGeneticAlgorithm() async {
     loading.value = true;
     final response = await http.get(
-      Uri.parse('$apiUrl/individuals'),
+      Uri.parse('$apiUrl/go/individuals'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -214,7 +214,7 @@ class GeneticAlgorithmController extends GetxController {
     loading.value = true;
 
     final response = await http.get(
-      Uri.parse('$apiUrl/status'),
+      Uri.parse('$apiUrl/go/status'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -225,7 +225,7 @@ class GeneticAlgorithmController extends GetxController {
 
   Future<void> setVariables() async {
     final response = await http.post(
-      Uri.parse('$apiUrl/set-variables'),
+      Uri.parse('$apiUrl/go/set-variables'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(
         {
