@@ -5,7 +5,8 @@
   Arquitetura Escolhida
   A arquitetura escolhida para este projeto é baseada em uma abordagem de desenvolvimento Full Stack, onde as diferentes partes do sistema são divididas em componentes independentes que se comunicam por meio de APIs e serviços em nuvem. A seguir, descrevemos os principais componentes do sistema e como eles interagem:
   
-  
+  ![Arquitetura DFS](https://github.com/gontijol/algoritmoGenetico/assets/64325773/8304f55e-98ae-47c0-bbfa-ae4bb8ec985d)
+
   API Rest hospedada em servidor EC2 na AWS:
   
   A API Rest é a camada principal que gerencia a lógica de negócios e a comunicação com os clientes (front-ends).
