@@ -22,7 +22,7 @@ export default {
         async fetchBestIndividual() {
             try {
                 const response = await this.$axios.get(
-                    "192.168.1.15:8080/best-global-individual"
+                    "192.168.1.15:8080/individuals"
                 );
                 this.bestIndividual = response.data.bestGlobalIndividual;
             } catch (error) {
