@@ -1,8 +1,49 @@
 import 'dart:math';
 import 'dart:convert';
+import 'package:aws_dynamodb_api/dynamodb-2011-12-05.dart';
+import 'package:math_expressions/math_expressions.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
+
+void main() async {
+  final geneticAlgorithmController = GeneticAlgorithmController();
+  await geneticAlgorithmController.connectDb();
+  final router = geneticAlgorithmController.createRouter();
+
+  // Rota para obter o status (não executa o algoritmo genético)
+  router.get('/status',
+      (Request request) => geneticAlgorithmController.getStatus(request));
+
+  router.post('/calculate-function',
+      (Request request) => geneticAlgorithmController.setVariables(request));
+
+  // Rota para obter todos os indivíduos (não executa o algoritmo genético)
+  router.get(
+      '/individuals',
+      (Request request) =>
+          geneticAlgorithmController.getAllIndividuals(request));
+
+  // Rota para obter o melhor indivíduo global (não executa o algoritmo genético)
+  router.get(
+      '/best-global-individual',
+      (Request request) =>
+          geneticAlgorithmController.getBestGlobalIndividual(request));
+
+  // Rota para atualizar as variáveis do algoritmo genético (não executa o algoritmo genético)
+  router.post('/set-variables',
+      (Request request) => geneticAlgorithmController.setVariables(request));
+
+  // Rota para obter as variáveis do algoritmo genético (não executa o algoritmo genético)
+  router.get('/get-variables',
+      (Request request) => geneticAlgorithmController.getVariables(request));
+
+  // Crie o handler usando o router
+  final handler =
+      const Pipeline().addMiddleware(logRequests()).addHandler(router);
+  final server = await io.serve(handler, '192.168.15.103', 8082);
+  print('Server running on ${server.address}:${server.port}');
+}
 
 class Individual {
   final String chromosome;
@@ -143,6 +184,9 @@ class GeneticAlgorithm {
 }
 
 class GeneticAlgorithmController {
+  final awsCredentials = AwsClientCredentials(
+      accessKey: 'AKIA6CM7BOEOOETSDT7I',
+      secretKey: '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');
   GeneticAlgorithm? geneticAlgorithm;
 
   GeneticAlgorithmController() {
@@ -211,6 +255,72 @@ class GeneticAlgorithmController {
     }
   }
 
+  calculateFunction(Request request) async {
+    final Map<String, dynamic> requestData =
+        jsonDecode(await request.readAsString());
+    final String equation = requestData['equation'];
+    final x = requestData['x'];
+    final y = requestData['y'];
+    final nome = requestData['nome'];
+    final numVariaveis = requestData['numVariaveis'];
+    final funcao = requestData['funcao'];
+    Random random = Random();
+    final randId = random.nextInt(1000000000);
+
+    DynamoDB dynamoDB =
+        DynamoDB(region: 'us-east-2', credentials: awsCredentials);
+
+    dynamoDB.putItem(item: {
+      'id': AttributeValue(n: randId.toString()),
+      'nome': AttributeValue(s: nome),
+      'funcao': AttributeValue(s: equation),
+      'num_variaveis': AttributeValue(n: numVariaveis.toString()),
+      'x': AttributeValue(n: x.toString()),
+      'y': AttributeValue(n: y.toString()),
+    }, tableName: 'algoritmo_genetico');
+    if (x == null || y == null) {
+      final responseJson = {'error': 'Invalid input data'};
+      return Response.badRequest(
+          body: jsonEncode(responseJson),
+          headers: {'content-type': 'application/json'});
+    }
+
+    double result = calcularFuncao(equation, x, y);
+
+    final responseJson = {'result': result};
+
+    return Response.ok(jsonEncode(responseJson),
+        headers: {'content-type': 'application/json'});
+  }
+
+  connectDb() async {
+    final awsCredentials = AwsClientCredentials(
+        accessKey: 'AKIA6CM7BOEOOETSDT7I',
+        secretKey: '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');
+    DynamoDB dynamoDB =
+        DynamoDB(region: 'us-east-2', credentials: awsCredentials);
+
+    dynamoDB.listTables().then((data) {
+      print(data.tableNames);
+      print(data.tableNames!.length);
+    });
+
+    dynamoDB.putItem(item: {
+      'id': AttributeValue(n: '2'),
+      'nome': AttributeValue(s: 'funcao') // Replace with your numeric value
+    }, tableName: 'algoritmo_genetico');
+  }
+
+  double calcularFuncao(String equacao, x, y) {
+    final expression = Parser().parse(equacao);
+    final ContextModel cm = ContextModel();
+    cm.bindVariable(Variable('x'), Number(x));
+    cm.bindVariable(Variable('y'), Number(y));
+
+    final value = expression.evaluate(EvaluationType.REAL, cm);
+    return value;
+  }
+
   runGeneticAlgorithm(Request request) {
     int populationSize = 100;
     double mutationRate = 0.008;
@@ -254,6 +364,11 @@ class GeneticAlgorithmController {
     }
   }
 
+  bool isFuncaoValida(String word) {
+    final funcoesConhecidas = ["pow", "sqrt", "sin", "cos", "tan"];
+    return funcoesConhecidas.contains(word);
+  }
+
   Response getVariables(Request request) {
     int? populationSize = geneticAlgorithm!.populationSize;
     double? mutationRate = geneticAlgorithm!.mutationRate;
@@ -280,6 +395,8 @@ class GeneticAlgorithmController {
 
   Router createRouter() {
     final router = Router();
+    router.post(
+        '/calculate-function', (Request request) => calculateFunction(request));
     router.get('/status', (Request request) => getStatus(request));
     router.get('/individuals', getAllIndividuals);
     router.get('/best-global-individual', getBestGlobalIndividual);
@@ -295,41 +412,7 @@ class GeneticAlgorithmController {
   }
 }
 
-void main() async {
-  final geneticAlgorithmController = GeneticAlgorithmController();
 
-  final router = geneticAlgorithmController.createRouter();
-
-  // Rota para obter o status (não executa o algoritmo genético)
-  router.get('/status',
-      (Request request) => geneticAlgorithmController.getStatus(request));
-
-  // Rota para obter todos os indivíduos (não executa o algoritmo genético)
-  router.get(
-      '/individuals',
-      (Request request) =>
-          geneticAlgorithmController.getAllIndividuals(request));
-
-  // Rota para obter o melhor indivíduo global (não executa o algoritmo genético)
-  router.get(
-      '/best-global-individual',
-      (Request request) =>
-          geneticAlgorithmController.getBestGlobalIndividual(request));
-
-  // Rota para atualizar as variáveis do algoritmo genético (não executa o algoritmo genético)
-  router.post('/set-variables',
-      (Request request) => geneticAlgorithmController.setVariables(request));
-
-  // Rota para obter as variáveis do algoritmo genético (não executa o algoritmo genético)
-  router.get('/get-variables',
-      (Request request) => geneticAlgorithmController.getVariables(request));
-
-  // Crie o handler usando o router
-  final handler =
-      const Pipeline().addMiddleware(logRequests()).addHandler(router);
-
-  final server = await io.serve(handler, '172.31.14.197', 8080);
-  print('Server running on ${server.address}:${server.port}');
-}
 //http://18.188.214.10:8080/ -- servidor da amazon -- https publico
 //http://172.31.14.197:8080/ -- servidor da amazon local ipv4 -- http privado
+
