@@ -184,9 +184,9 @@ class GeneticAlgorithm {
 }
 
 class GeneticAlgorithmController {
-  final awsCredentials = AwsClientCredentials(
-      accessKey: 'AKIA6CM7BOEOOETSDT7I',
-      secretKey: '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');
+  // final awsCredentials = AwsClientCredentials(
+  //     accessKey: 'AKIA6CM7BOEOOETSDT7I',
+  //     secretKey: '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');
   GeneticAlgorithm? geneticAlgorithm;
 
   GeneticAlgorithmController() {
