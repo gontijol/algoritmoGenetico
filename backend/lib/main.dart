@@ -184,9 +184,7 @@ class GeneticAlgorithm {
 }
 
 class GeneticAlgorithmController {
-  // final awsCredentials = AwsClientCredentials(
-  //     accessKey: 'AKIA6CM7BOEOOETSDT7I',
-  //     secretKey: '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');
+
   GeneticAlgorithm? geneticAlgorithm;
 
   GeneticAlgorithmController() {
@@ -294,9 +292,7 @@ class GeneticAlgorithmController {
   }
 
   connectDb() async {
-    final awsCredentials = AwsClientCredentials(
-        accessKey: 'AKIA6CM7BOEOOETSDT7I',
-        secretKey: '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');
+
     DynamoDB dynamoDB =
         DynamoDB(region: 'us-east-2', credentials: awsCredentials);
 
