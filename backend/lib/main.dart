@@ -40,7 +40,7 @@ void main() async {
   // Crie o handler usando o router
   final handler =
       const Pipeline().addMiddleware(logRequests()).addHandler(router);
-  final server = await io.serve(handler, '192.168.15.103', 8082);
+  final server = await io.serve(handler, 'localhost', 8080);
   print('Server running on ${server.address}:${server.port}');
 }
 
