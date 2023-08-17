@@ -1,14 +1,13 @@
 import 'dart:math';
 import 'dart:convert';
-import 'package:aws_dynamodb_api/dynamodb-2011-12-05.dart';
-import 'package:math_expressions/math_expressions.dart';
+
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 
 void main() async {
   final geneticAlgorithmController = GeneticAlgorithmController();
-  await geneticAlgorithmController.connectDb();
+  // await geneticAlgorithmController.connectDb();
   final router = geneticAlgorithmController.createRouter();
 
   // Rota para obter o status (não executa o algoritmo genético)
@@ -184,7 +183,6 @@ class GeneticAlgorithm {
 }
 
 class GeneticAlgorithmController {
-
   GeneticAlgorithm? geneticAlgorithm;
 
   GeneticAlgorithmController() {
@@ -265,57 +263,56 @@ class GeneticAlgorithmController {
     Random random = Random();
     final randId = random.nextInt(1000000000);
 
-    DynamoDB dynamoDB =
-        DynamoDB(region: 'us-east-2', credentials: awsCredentials);
+    // DynamoDB dynamoDB =
+    // DynamoDB(region: 'us-east-2', credentials: awsCredentials);
 
-    dynamoDB.putItem(item: {
-      'id': AttributeValue(n: randId.toString()),
-      'nome': AttributeValue(s: nome),
-      'funcao': AttributeValue(s: equation),
-      'num_variaveis': AttributeValue(n: numVariaveis.toString()),
-      'x': AttributeValue(n: x.toString()),
-      'y': AttributeValue(n: y.toString()),
-    }, tableName: 'algoritmo_genetico');
-    if (x == null || y == null) {
-      final responseJson = {'error': 'Invalid input data'};
-      return Response.badRequest(
-          body: jsonEncode(responseJson),
-          headers: {'content-type': 'application/json'});
-    }
+    // dynamoDB.putItem(item: {
+    //   'id': AttributeValue(n: randId.toString()),
+    //   'nome': AttributeValue(s: nome),
+    //   'funcao': AttributeValue(s: equation),
+    //   'num_variaveis': AttributeValue(n: numVariaveis.toString()),
+    //   'x': AttributeValue(n: x.toString()),
+    //   'y': AttributeValue(n: y.toString()),
+    // }, tableName: 'algoritmo_genetico');
+    // if (x == null || y == null) {
+    //   final responseJson = {'error': 'Invalid input data'};
+    //   return Response.badRequest(
+    //       body: jsonEncode(responseJson),
+    //       headers: {'content-type': 'application/json'});
+    // }
 
-    double result = calcularFuncao(equation, x, y);
+    // double result = calcularFuncao(equation, x, y);
 
-    final responseJson = {'result': result};
+    // final responseJson = {'result': result};
 
-    return Response.ok(jsonEncode(responseJson),
-        headers: {'content-type': 'application/json'});
+    // return Response.ok(jsonEncode(responseJson),
+    // headers: {'content-type': 'application/json'});
   }
 
-  connectDb() async {
+  // connectDb() async {
+  //   DynamoDB dynamoDB =
+  //       DynamoDB(region: 'us-east-2', credentials: awsCredentials);
 
-    DynamoDB dynamoDB =
-        DynamoDB(region: 'us-east-2', credentials: awsCredentials);
+  //   dynamoDB.listTables().then((data) {
+  //     print(data.tableNames);
+  //     print(data.tableNames!.length);
+  //   });
 
-    dynamoDB.listTables().then((data) {
-      print(data.tableNames);
-      print(data.tableNames!.length);
-    });
+  //   dynamoDB.putItem(item: {
+  //     'id': AttributeValue(n: '2'),
+  //     'nome': AttributeValue(s: 'funcao') // Replace with your numeric value
+  //   }, tableName: 'algoritmo_genetico');
+  // }
 
-    dynamoDB.putItem(item: {
-      'id': AttributeValue(n: '2'),
-      'nome': AttributeValue(s: 'funcao') // Replace with your numeric value
-    }, tableName: 'algoritmo_genetico');
-  }
+  // double calcularFuncao(String equacao, x, y) {
+  //   final expression = Parser().parse(equacao);
+  //   final ContextModel cm = ContextModel();
+  //   cm.bindVariable(Variable('x'), Number(x));
+  //   cm.bindVariable(Variable('y'), Number(y));
 
-  double calcularFuncao(String equacao, x, y) {
-    final expression = Parser().parse(equacao);
-    final ContextModel cm = ContextModel();
-    cm.bindVariable(Variable('x'), Number(x));
-    cm.bindVariable(Variable('y'), Number(y));
-
-    final value = expression.evaluate(EvaluationType.REAL, cm);
-    return value;
-  }
+  //   final value = expression.evaluate(EvaluationType.REAL, cm);
+  //   return value;
+  // }
 
   runGeneticAlgorithm(Request request) {
     int populationSize = 100;
