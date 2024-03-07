@@ -3,4 +3,4 @@
 *.dart linguagem=dart
 *.go linguagem=go
 *.js linguagem=javascript
-*.html linguagem=text
+*.html language=text
