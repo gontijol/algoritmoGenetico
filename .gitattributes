@@ -1,2 +1,5 @@
-# Exclude compiled file from github statistics
-**/*.html linguist-generated=true
+*.py linguagem=python
+*.java linguagem=java
+*.dart linguagem=dart
+*.go linguagem=go
+*.js linguagem=javascript
